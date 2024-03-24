@@ -4,26 +4,30 @@ require "yaml"
 struct Endpoint
   include JSON::Serializable
   include YAML::Serializable
-  property url, method, params, protocol, details
+  property url, method, params, protocol, details, tags
 
   def initialize(@url : String, @method : String)
     @params = [] of Param
     @details = Details.new
     @protocol = "http"
+    @tags = [] of Tag
   end
 
   def initialize(@url : String, @method : String, @details : Details)
     @params = [] of Param
     @protocol = "http"
+    @tags = [] of Tag
   end
 
   def initialize(@url : String, @method : String, @params : Array(Param))
     @details = Details.new
     @protocol = "http"
+    @tags = [] of Tag
   end
 
   def initialize(@url : String, @method : String, @params : Array(Param), @details : Details)
     @protocol = "http"
+    @tags = [] of Tag
   end
 
   def set_details(@details : Details)
@@ -31,6 +35,10 @@ struct Endpoint
 
   def set_protocol(protocol : String)
     @protocol = protocol
+  end
+
+  def add_tag(tag : Tag)
+    @tags << tag
   end
 
   def push_param(param : Param)
@@ -54,11 +62,16 @@ end
 struct Param
   include JSON::Serializable
   include YAML::Serializable
-  property name, value, param_type
+  property name, value, param_type, tags
 
   # param_type can be "query", "json", "form", "header", "cookie"
 
   def initialize(@name : String, @value : String, @param_type : String)
+    @tags = [] of Tag
+  end
+
+  def add_tag(tag : Tag)
+    @tags << tag
   end
 end
 
@@ -109,5 +122,14 @@ struct EndpointReference
   property endpoint, metadata
 
   def initialize(@endpoint : Endpoint, @metadata : Hash(Symbol, String))
+  end
+end
+
+struct Tag
+  include JSON::Serializable
+  include YAML::Serializable
+  property name, description, tagger
+
+  def initialize(@name : String, @description : String, @tagger : String)
   end
 end

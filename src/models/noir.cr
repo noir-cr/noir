@@ -1,5 +1,6 @@
 require "../detector/detector.cr"
 require "../analyzer/analyzer.cr"
+require "../tagger/tagger.cr"
 require "../deliver/*"
 require "../output_builder/*"
 require "./endpoint.cr"
@@ -91,6 +92,9 @@ class NoirRunner
     @endpoints = analysis_endpoints options, @techs, @logger
     optimize_endpoints
     combine_url_and_endpoints
+    if @options[:tagger] == "yes"
+      run_tagger @endpoints, @options
+    end
     deliver
   end
 

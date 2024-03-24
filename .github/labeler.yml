@@ -29,6 +29,12 @@
     - src/output_builder/**
     - src/models/output_builder.cr
 
+🏷️ tagger:
+- changed-files:
+  - any-glob-to-any-file: 
+    - src/taggers/**
+    - src/models/tag.cr
+
 💊 spec:
 - changed-files:
   - any-glob-to-any-file: spec/**

@@ -33,6 +33,9 @@ OptionParser.parse do |parser|
     noir_options[:nolog] = "yes"
   end
 
+  parser.separator "\n  Tagger:".colorize(:blue)
+  parser.on "--tagger", "Use tagger" { |_| noir_options[:tagger] = "yes" }
+
   parser.separator "\n  Deliver:".colorize(:blue)
   parser.on "--send-req", "Send results to a web request" { |_| noir_options[:send_req] = "yes" }
   parser.on "--send-proxy http://proxy..", "Send results to a web request via an HTTP proxy" { |var| noir_options[:send_proxy] = var }
